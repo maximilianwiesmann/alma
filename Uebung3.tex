@@ -1,0 +1,139 @@
+\documentclass[11pt]{scrartcl}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[utf8]{luainputenc}
+\usepackage{graphics}
+\usepackage[margin=10pt,font=small,labelfont=it]{caption}
+\usepackage[left=3cm,right=3cm,top=2.5cm,bottom=3cm]{geometry}
+\usepackage{graphicx}
+\usepackage{csquotes}
+\usepackage{cite}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{dsfont}
+%\usepackage[onehalfspacing]{setspace}
+\usepackage{qcircuit}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{mathtools}
+\usepackage{xpatch}
+\usepackage{lscape}
+\usepackage{weva}
+\usepackage{enumerate}
+\usepackage{xfrac}
+\usepackage{faktor}
+
+
+\xyoption{color}
+
+\newtheoremstyle{dotless}{}{}{}{}{\bfseries}{}{ }{}
+\theoremstyle{dotless}
+
+\newtheorem*{satz}{Satz}
+\newtheorem{law}{Gesetz}
+\newtheorem{postulat}{Postulat}
+\newtheorem{axiom}{Axiom}
+\newtheorem{defi}{Definition}
+\newtheorem{kor}{Korollar}
+\newtheorem*{lem}{Lemma}
+\newtheorem{bez}{Bezeichnung}
+\newtheorem{bem}{Bemerkung}
+\newtheorem{bsp}{Beispiel}
+\newtheorem{beh}{Behauptung}
+\newtheorem*{exercise}{Übung}
+
+\newcommand{\cgate}[1]{\color{red};*+<.6em>{#1}\POS ="i","i"+UR;"i"+UL **\dir{-};"i"+DL **\dir{-};"i"+DR **\dir{-};"i"+UR **\dir{-},"i" \qw}
+
+\hypersetup{linkcolor=black,citecolor=blue,colorlinks=true}
+
+\newcommand{\bra}[1]{{\left\langle{#1}\right\vert}}
+\newcommand{\ket}[1]{{\left\vert{#1}\right\rangle}}
+\newcommand{\floor}[1]{\left\lfloor #1\right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil #1\right\rceil}
+
+\renewcommand\thesubsection{(\alph{subsection})}
+\renewcommand{\autodot}{}
+
+\title{3. Übung}
+\author{Jonas Lippert \and Maximilian Wiesmann}
+\subject{Algorithmische Mathematik I}
+
+\begin{document}
+	\maketitle
+	\section{}
+	\subsection{}
+	\section{}
+	\subsection{}
+		Sei $n$ eine negative ganze Zahl und sei $z$ die 2-Komplementdarstellung von $n$. Nach Lemma 2.6 gilt
+		$$ z = K_2^l(-n) = \sum_{i=0}^{l-1}(2-1-z_i)2^i \quad\text{für}~-n-1=\sum_{i=0}^{l-1}z_i2^i $$ 
+		Stehen nun $2l$ Ziffern zur Verfügung, so gilt
+		$$-n-1=\sum_{i=0}^{2l-1}z_ib^i\quad \text{mit}~z_i=0~\text{für}~l\le i\le 2l-1$$
+		$$\Rightarrow z = K_2^{2l}(-n) = \sum_{i=0}^{2l-1}(2-1-z_i)2^i = \sum_{i=0}^{l-1}(2-1-z_i)2^i + \sum_{i=l}^{2l-1}(2-1-0)2^i$$
+		D.h. bei $2l$ Ziffern sind in der Komplementdarstellung die ersten $l$ Ziffern alle gleich 1 und die weiteren Ziffern genauso wie in $K_2^{l}(-n)$.
+	\subsection{}
+		Wie in (a) gilt
+		$$ z = K_2^l(-n) = \sum_{i=0}^{l-1}(2-1-z_i)2^i \quad\text{für}~-n-1=\sum_{i=0}^{l-1}z_i2^i $$ 
+		Die $i$-te Ziffer von $z$ ist also genau dann gleich 0, wenn $z_i=1$, und gleich 1, wenn $z_i=0$ ist. Vertauscht man nun also Nullen und Einsen miteinander, so erhält man an jeder Ziffer gerade $z_i$, also die $i$-te Ziffer der Binärdarstellung von $-n-1$. Es entsteht also genau die Binärdarstellung von $-n-1$.
+	\section{}
+	\subsection{}
+		Ausmultiplizieren und Aufsummieren liefert:
+		$$(19375573910)_{-10}=0\cdot (-10)^0+1\cdot (-10)^1+9\cdot (-10)^2 + 3\cdot (-10)^3+7\cdot (-10)^4+5\cdot(-10)^5$$$$+5\cdot (-10)^6+7\cdot (-10)^7+3\cdot (-10)^8+9\cdot (-10)^9 +1\cdot(-10)^{10}$$
+		$$=0\cdot 10^0+9\cdot 10^2+7\cdot 10^4+5\cdot 10^6+3\cdot 10^8 +1\cdot10^{10}$$
+		$$-(1\cdot 10^1+3\cdot 10^3+5\cdot 10^5+7\cdot 10^7+9\cdot 10^9)$$
+		$$=(10305070900)_{10}-(9070503010)_{10}=(1234567890)_{10}$$
+	\subsection{}
+		Eine Darstellung von $(9230753)_{10}$ zur Basis $-10$ ist $(-11371367)_{-10}$. Wir überprüfen dies durch Nachrechnen:
+		$$(-11371367)_{-10}=-(7\cdot (-10)^0+6\cdot (-10)^1+3\cdot (-10)^2+1\cdot (-10)^3$$$$+7\cdot (-10)^4+3\cdot (-10)^5+1\cdot (-10)^6+1\cdot (-10)^7)$$
+		$$=-(7\cdot 10^0+3\cdot 10^2+7\cdot 10^4+1\cdot 10^6-(6\cdot 10^1+1\cdot 10^3+3\cdot 10^5+1\cdot 10^7))$$
+		$$=(10301060)_{10}-(1070307)_{10}=(9230753)_{10}$$
+	\subsection{\& (d)}
+		Wir geben zwei konkrete, i.A. verschiedene Darstellungen einer beliebigen Zahl $x\in \mathbb{Z}$ zur Basis $-10$ an und zeigen so, dass es stets eine solche Darstellung gibt und diese nicht immer eindeutig ist.\newline
+		Sei $x=\pm\sum_{i=0}^{l-1}z_i10^i,~z_i\in \mathbb{N}\cup \{0\}$ die Darstellung von $x$ zur Basis 10. Für den Fall, dass $x$ negativ ist, müssen in den folgenden Darstellungen einfach nur die Vorzeichen geändert werden, wir betrachten deshalb im Folgenden nur den Fall, dass $x$ positiv ist.\newline
+		\underline{1. Darstellung:}\newline
+		Fall 1: $l$ ist gerade.\newline
+		Wir zeigen, dass die Darstellung
+		$$x=\sum_{i=0}^{\floor{\frac{l}{2}}-1}z_{2i+1}^{\prime} 10^{2i+1}-\sum_{i=0}^{\ceil{\frac{l}{2}}-1}z_{2i}^{\prime} 10^{2i}=-\sum_{i=0}^{l-1}z_{i}^{\prime} (-10)^{i}$$
+		mit
+		$$z_j^{\prime}=\left\{\begin{array}{ll}
+		10-z_j~,& \text{wenn}~j~ \text{gerade}\\
+		z_j+1~,&\text{wenn}~j~ \text{ungerade}\\
+		\end{array}\right.$$
+		eine korrekte Darstellung von $x$ zur Basis $-10$ ist. Anmerkung: Ist $z_j=9$ und befinden wir uns im zweiten Fall der Darstellungsvorschrift, kommt es zu einem \glqq Übertrag\grqq. Dies stört uns aber nicht, wenn wir die $z_j$ einfach formal als Koeffizienten in der Summe auffassen. Sollte der Fall eintreten, dass man z.B. als erste \glqq Ziffer\grqq $-1$ erhält, kann man diese durch 19 ersetzen.\newline
+		Fall 2: $l$ ist ungerade.\newline
+		Wir wählen die Darstellung wie in Fall 1, nur ist dies in diesem Fall eine korrekte Darstellung von $x-10^l$ zur Basis $-10$. Es ist klar, dass wir dann auch eine Darstellung für $x$ erhalten, indem wir am Ende des Umwandlungsprozesses noch $10^l$ subtrahieren, d.h. eine 1 als erste Ziffer in der Darstellung zur Basis $-10$ ergänzen.\newline
+		Beweis:\newline
+		$$\sum_{i=0}^{\floor{\frac{l}{2}}-1}z_{2i+1}^{\prime} 10^{2i+1}-\sum_{i=0}^{\ceil{\frac{l}{2}}-1}z_{2i}^{\prime} 10^{2i}=\sum_{i=0}^{\floor{\frac{l}{2}}-1}(z_{2i+1}+1) 10^{2i+1}-\sum_{i=0}^{\ceil{\frac{l}{2}}-1}(10-z_{2i})10^{2i}$$
+		$$=\sum_{i=0}^{\floor{\frac{l}{2}}-1}z_{2i+1} 10^{2i+1}+\sum_{i=0}^{\floor{\frac{l}{2}}-1} 10^{2i+1}-\sum_{i=0}^{\ceil{\frac{l}{2}}-1} 10^{2i+1}+\sum_{i=0}^{\ceil{\frac{l}{2}}-1}z_{2i} 10^{2i}$$
+		$$=\left\{\begin{array}{ll}
+		\sum_{i=0}^{l-1}z_i10^i-10^{l}=x-10^{l}\quad&\text{für ungerades }l\\
+		\sum_{i=0}^{l-1}z_i10^i=x\quad&\text{für gerades }l\\
+		\end{array}\right.
+		$$
+		\underline{2. Darstellung:}\newline
+		Wir zeigen, dass die Darstellung
+		$$x=\sum_{i=0}^{\ceil{\frac{l}{2}}-1}z_{2i}^{\prime} 10^{2i}-\sum_{i=0}^{\floor{\frac{l}{2}}-1}z_{2i+1}^{\prime} 10^{2i+1}=\sum_{i=0}^{l-1}z_{i}^{\prime} (-10)^{i}$$
+		mit
+		$$z_j^{\prime}=\left\{\begin{array}{ll}
+		z_j+1~,& \text{wenn}~j~ \text{gerade}\\
+		10-z_j~,&\text{wenn}~j~ \text{ungerade}\\
+		\end{array}\right.$$
+		eine korrekte Darstellung von $x+1$ zur Basis $-10$ ist, wenn $l$ ungerade ist, und eine korrekte Darstellung von $x+1-10^l$, wenn $l$ gerade ist (analog zu oben; entsprechend muss dann von der $-10$-adischen Darstellung noch 1 subtrahiert respektive 1 subtrahiert und $10^l$ addiert werden).\newline
+		Beweis:
+		$$\sum_{i=0}^{\ceil{\frac{l}{2}}-1}z_{2i}^{\prime} 10^{2i}-\sum_{i=0}^{\floor{\frac{l}{2}}-1}z_{2i+1}^{\prime} 10^{2i+1}=\sum_{i=0}^{\ceil{\frac{l}{2}}-1}(z_{2i}+1) 10^{2i}-\sum_{i=0}^{\floor{\frac{l}{2}}-1}(10-z_{2i+1}) 10^{2i+1}$$
+		$$=\sum_{i=0}^{\ceil{\frac{l}{2}}-1}z_{2i} 10^{2i} + \sum_{i=0}^{\ceil{\frac{l}{2}}-1} 10^{2i} - \sum_{i=0}^{\floor{\frac{l}{2}}-1} 10^{2i+2} + \sum_{i=0}^{\floor{\frac{l}{2}}-1}z_{2i+1} 10^{2i+1}$$
+		$$=\sum_{i=0}^{l-1}z_i10^i + \sum_{i=0}^{\ceil{\frac{l}{2}}-1} 10^{2i} - 
+		\sum_{i=1}^{\floor{\frac{l}{2}}} 10^{2i}$$
+		$$=\left\{\begin{array}{ll}
+		\sum_{i=0}^{l-1}z_i10^i+10^0=x+1\quad&\text{für ungerades }l\\
+		\sum_{i=0}^{l-1}z_i10^i +10^0 - 10^l=x+1-10^l\quad&\text{für gerades }l\\
+		\end{array}\right.
+		$$
+		Diese beiden Darstellungen sind i.A. nicht gleich. Um dies zu zeigen, betrachten wir das Beispiel aus Teil (b):
+		$$(9230753)_{10}\overset{\text{1. Darst.}}{=}(-11371367)_{-10}\overset{\text{2. Darst.}}{=}(190830854)_{-10}$$
+		Folglich ist die Darstellung einer Zahl zur Basis $-10$ i.A. nicht eindeutig, solche Darstellungen existieren aber.
+\end{document}
