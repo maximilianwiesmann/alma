@@ -57,6 +57,8 @@ int main(){
                 max_laenge = folgenlaengen[i];
                 max_eingabe = i + 1;
             }
+            //fuer jedes n, 1<=n<=10^6, als Startwert wird die resultierende Folgenlaenge ausgegeben
+            std::cout << "Anfangswert: " << i+1 << "; Folgenlaenge: " << folgenlaengen[i] << std::endl;
         }
         std::cout << "Die laengste Collatz-Folge fuer Anfangswerte zwischen 1 und 1000000 "
                      "erhaelt man fuer n* = " << max_eingabe << " mit Laenge " << max_laenge << std::endl;
