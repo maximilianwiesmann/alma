@@ -1,3 +1,8 @@
+//
+// Created by Jonas Lippert and Maximilian Wiesmann
+// Blatt 4, Programmieraufgabe
+//
+
 // fraction.h (Class Fraction)
 
 #include <iostream>
@@ -143,7 +148,7 @@ private:
     inttype _numerator;
     inttype _denominator;
 
-    void cancel()                               // Kürzen
+    void cancel()                               // KÃ¼rzen
 	{
 		inttype a = _numerator, b = _denominator;
 
