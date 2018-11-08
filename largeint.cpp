@@ -71,8 +71,8 @@ const LargeInt & LargeInt::operator+=(const LargeInt & arg)   // addition
 LargeInt LargeInt::operator*(const LargeInt & arg) const {
     unsigned long max = (_v.size() >= arg._v.size()) ? _v.size() : arg._v.size();
     std::vector<short> result(2*max, 0);
-    for(int i = 0; i < _v.size(); ++i){
-        for(int j = 0; j < arg._v.size(); ++j){
+    for(unsigned long i = 0; i < _v.size(); ++i){
+        for(unsigned long j = 0; j < arg._v.size(); ++j){
             result[i+j] += _v[i]*arg._v[j];
         }
     }
