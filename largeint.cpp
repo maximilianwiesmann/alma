@@ -5,6 +5,8 @@
 // largeint.cpp (Implementation of Class LargeInt)
 
 #include "largeint.h"
+#include <iostream>
+#include <stdexcept>
 
 const std::string LargeInt::digits = "0123456789";
 
@@ -40,6 +42,47 @@ bool LargeInt::operator<(const LargeInt & arg) const   // checks if < arg
     return _v.size() < arg._v.size();
 }
 
+bool LargeInt::is_even() const                      // Zahl gerade?
+{
+    return(1 - _v[0] % 2);
+}
+
+void LargeInt::div2()                              // Division durch 2
+{
+    if (_v[0] % 2)
+    {
+        throw std::runtime_error ("Division durch 2 nicht moeglich, da Zahl nicht gerade.");
+    }
+
+    short carry = 0;
+
+    for (auto i = _v.rbegin(); i < _v.rend(); ++i)
+    {
+        *i += carry;
+        carry = 0;
+
+        if (*i % 2)
+        {
+            *i /= 2;
+            carry = 10;
+        }
+        else *i /= 2;
+    }
+
+    for(auto it = _v.rbegin(); *it == 0; ++it)           //delete leading zeros
+    {
+        _v.pop_back();
+    }
+}
+
+bool LargeInt::is_zero() const                         // Zahl gleich 0?
+{
+    for(auto i : _v)
+    {
+        if(i) return 0;
+    }
+    return 1;
+}
 
 LargeInt LargeInt::operator+(const LargeInt & arg) const  // addition
 {
@@ -66,6 +109,44 @@ const LargeInt & LargeInt::operator+=(const LargeInt & arg)   // addition
     }
     if (carry != 0) _v.push_back(carry);
     return *this;
+}
+
+const LargeInt & LargeInt::operator-=(const LargeInt & arg)   // subtraction a-b nur gültig für b<=a
+{
+    if (*this < arg)
+    {
+        throw std::runtime_error("Negative numbers are not allowed.");
+    }
+
+    auto it1 = _v.begin();
+    for (auto it2 = arg._v.begin(); it2 != arg._v.end(); ++it2, ++it1) {
+        *it1 -= *it2;
+    }
+    short carry = 0;
+    for (auto & i : _v) {
+        i += carry;
+        carry = i / 10;
+        i %= 10;                 //Modulo scheint nicht in positive Zahlen umzuformen
+        if (i < 0)
+        {
+            carry -= 1;
+            i += 10;
+        }
+    }
+
+    for(auto it = _v.rbegin(); *it == 0 and it < _v.rend() - 1; ++it)           //delete leading zeros
+    {
+        _v.pop_back();
+    }
+
+    return *this;
+}
+
+LargeInt LargeInt::operator-(const LargeInt & arg) const                 // subtraction
+{
+    LargeInt result(*this);
+    result -= arg;
+    return result;
 }
 
 LargeInt LargeInt::operator*(const LargeInt & arg) const {
@@ -96,4 +177,19 @@ const LargeInt& LargeInt::operator*=(const LargeInt & arg) {
     return *this;
 }
 
+using myint = long long;
+
+LargeInt gcd2(LargeInt(a),LargeInt(b))         // compute greatest common divisor
+{
+
+}
+
+int main()
+{
+    myint a, b;
+    std::cout << "This program computes the greatest common divisor.\n"
+              << "Enter two natural numbers, separated by blank: ";
+    std::cin >> a >> b;
+    std::cout << "gcd(" << a << "," << b << ") = " << gcd2(LargeInt(a),LargeInt(b)).decimal() << "\n";
+}
 
