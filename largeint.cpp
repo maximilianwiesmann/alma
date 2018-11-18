@@ -6,12 +6,13 @@
 
 #include "largeint.h"
 #include <iostream>
-#include <stdexcept>
 
 const std::string LargeInt::digits = "0123456789";
 
 LargeInt::LargeInt(inputtype i)   // constructor, calls constructor of vector
 {
+	if (i < 0)
+		throw std::runtime_error("negative argument in LargeInt");
     do {
         _v.push_back(i % 10);
         i /= 10;
@@ -42,47 +43,6 @@ bool LargeInt::operator<(const LargeInt & arg) const   // checks if < arg
     return _v.size() < arg._v.size();
 }
 
-bool LargeInt::is_even() const                      // Zahl gerade?
-{
-    return(1 - _v[0] % 2);
-}
-
-void LargeInt::div2()                              // Division durch 2
-{
-    if (_v[0] % 2)
-    {
-        throw std::runtime_error ("Division durch 2 nicht moeglich, da Zahl nicht gerade.");
-    }
-
-    short carry = 0;
-
-    for (auto i = _v.rbegin(); i < _v.rend(); ++i)
-    {
-        *i += carry;
-        carry = 0;
-
-        if (*i % 2)
-        {
-            *i /= 2;
-            carry = 10;
-        }
-        else *i /= 2;
-    }
-
-    for(auto it = _v.rbegin(); *it == 0; ++it)           //delete leading zeros
-    {
-        _v.pop_back();
-    }
-}
-
-bool LargeInt::is_zero() const                         // Zahl gleich 0?
-{
-    for(auto i : _v)
-    {
-        if(i) return 0;
-    }
-    return 1;
-}
 
 LargeInt LargeInt::operator+(const LargeInt & arg) const  // addition
 {
@@ -111,50 +71,14 @@ const LargeInt & LargeInt::operator+=(const LargeInt & arg)   // addition
     return *this;
 }
 
-const LargeInt & LargeInt::operator-=(const LargeInt & arg)   // subtraction a-b nur gültig für b<=a
-{
-    if (*this < arg)
-    {
-        throw std::runtime_error("Negative numbers are not allowed.");
-    }
-
-    auto it1 = _v.begin();
-    for (auto it2 = arg._v.begin(); it2 != arg._v.end(); ++it2, ++it1) {
-        *it1 -= *it2;
-    }
-    short carry = 0;
-    for (auto & i : _v) {
-        i += carry;
-        carry = i / 10;
-        i %= 10;                 //Modulo scheint nicht in positive Zahlen umzuformen
-        if (i < 0)
-        {
-            carry -= 1;
-            i += 10;
-        }
-    }
-
-    for(auto it = _v.rbegin(); *it == 0 and it < _v.rend() - 1; ++it)           //delete leading zeros
-    {
-        _v.pop_back();
-    }
-
-    return *this;
-}
-
-LargeInt LargeInt::operator-(const LargeInt & arg) const                 // subtraction
-{
-    LargeInt result(*this);
-    result -= arg;
-    return result;
-}
-
 LargeInt LargeInt::operator*(const LargeInt & arg) const {
-    unsigned long max = (_v.size() >= arg._v.size()) ? _v.size() : arg._v.size();
+    unsigned long long max = (_v.size() >= arg._v.size()) ? _v.size() : arg._v.size();
     std::vector<short> result(2*max, 0);
-    for(unsigned long i = 0; i < _v.size(); ++i){
-        for(unsigned long j = 0; j < arg._v.size(); ++j){
-            result[i+j] += _v[i]*arg._v[j];
+    for(unsigned long long i = 0; i < _v.size(); ++i){
+        for(unsigned long long j = 0; j < arg._v.size(); ++j){
+            short temp = _v[i]*arg._v[j];
+            result[i+j] += (temp % 10);
+            result[i+j+1] += (temp/10);
         }
     }
     for(auto it = result.rbegin(); *it == 0; ++it){     //delete leading zeros
@@ -177,19 +101,66 @@ const LargeInt& LargeInt::operator*=(const LargeInt & arg) {
     return *this;
 }
 
-using myint = long long;
-
-LargeInt gcd2(LargeInt(a),LargeInt(b))         // compute greatest common divisor
-{
-
+bool LargeInt::is_zero() const {
+    return this -> decimal() == "0";
+	//std::vector<short> zero(1,0);
+	//return _v == zero;
 }
 
-int main()
-{
-    myint a, b;
-    std::cout << "This program computes the greatest common divisor.\n"
-              << "Enter two natural numbers, separated by blank: ";
-    std::cin >> a >> b;
-    std::cout << "gcd(" << a << "," << b << ") = " << gcd2(LargeInt(a),LargeInt(b)).decimal() << "\n";
+bool LargeInt::is_even() const {
+    return (*_v.begin() % 2) == 0;
 }
 
+LargeInt LargeInt::operator-(const LargeInt & arg) const {
+    if(*this < arg){
+        throw std::runtime_error("result negative");
+    }
+    LargeInt result(0);
+    result._v.resize(_v.size(),0);
+    for (unsigned it = 0; it < arg._v.size(); ++it) {
+        if(_v[it]-arg._v[it] < 0){
+            result._v[it] += _v[it]-arg._v[it] + 10;
+            --result._v[it + 1];
+        }
+        else{
+            result._v[it] += _v[it]-arg._v[it];
+        }
+    }
+    short carry = 0;
+    for (auto & i : result._v) {
+        i += carry;
+        carry = i / 10;
+        i %= 10;
+    }
+    if (carry != 0) result._v.push_back(carry%10);
+    if(result._v.back() == 0) result._v.pop_back(); //delete leading zeros
+    return result;
+}
+
+
+LargeInt LargeInt::div2(LargeInt arg) {
+	if(not arg.is_even()){
+		throw std::runtime_error("number not divisible by 2");
+	}
+    LargeInt result(0);
+	if(arg.is_zero())
+		return result;
+    result._v.clear();
+    for(unsigned int i = arg._v.size(); i-- > 0;){
+        if(arg._v[i] != 1){
+            result._v.insert(result._v.begin(), short(arg._v[i]/2));
+            if(arg._v[i]%2 == 1){
+                arg._v[i] = 1;
+                ++i;
+            }
+        }
+        else{
+            result._v.insert(result._v.begin(), short((10+arg._v[i-1])/2));
+            if((10+arg._v[i-1])%2 == 0){
+                --i;
+            }
+        }
+    }
+	if(result._v.back() == 0) result._v.pop_back(); //delete leading zeros
+    return result;
+}
