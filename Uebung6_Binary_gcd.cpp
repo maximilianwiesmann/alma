@@ -27,7 +27,7 @@ LargeInt gcd2(LargeInt a, LargeInt b)
 	}
 	else if (a.is_even()){
 		if (b.is_even()){  
-			return LargeInt(2) * gcd2( b.div2(b), a.div2(a));
+			return LargeInt(2) * gcd2(b.div2(b), a.div2(a));
 		}
 		else { 
 			return  gcd2(b, a.div2(a));

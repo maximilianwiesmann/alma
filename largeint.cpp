@@ -108,7 +108,7 @@ bool LargeInt::is_zero() const {
 }
 
 bool LargeInt::is_even() const {
-    return (*_v.begin() % 2) == 0;
+    return (_v[0] % 2) == 0;
 }
 
 LargeInt LargeInt::operator-(const LargeInt & arg) const {
@@ -133,7 +133,7 @@ LargeInt LargeInt::operator-(const LargeInt & arg) const {
         i %= 10;
     }
     if (carry != 0) result._v.push_back(carry%10);
-    if(result._v.back() == 0) result._v.pop_back(); //delete leading zeros
+    if(result._v.back() == 0 && result._v.size() != 0 && result._v.size() != 1) result._v.pop_back(); //delete leading zeros
     return result;
 }
 
@@ -161,6 +161,6 @@ LargeInt LargeInt::div2(LargeInt arg) {
             }
         }
     }
-	if(result._v.back() == 0) result._v.pop_back(); //delete leading zeros
+	if(result._v.back() == 0 && result._v.size() != 1 && result._v.size() != 0) result._v.pop_back(); //delete leading zeros
     return result;
 }
