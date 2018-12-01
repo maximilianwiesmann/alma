@@ -1,5 +1,9 @@
 // Polynomial.cpp (class for polynomials - definition)
 
+//
+// Created by Jonas Lippert and Maximilian Wiesmann
+//
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -66,7 +70,7 @@ std::string Polynomial::toString() const                                   // co
         return res;
     }
 
-    //Größter Exponent
+    //GrÃ¶ÃŸter Exponent
 
     size_t t = _coefficient.size() - 1;
 
