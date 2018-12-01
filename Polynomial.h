@@ -1,5 +1,9 @@
 // Polynomial.h (class for polynomials - declaration)
 
+//
+// Created by Jonas Lippert and Maximilian Wiesmann
+//
+
 #include <vector>
 #include <string>
 
