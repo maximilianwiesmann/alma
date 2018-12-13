@@ -1,5 +1,6 @@
 //
 // Created by Maximilian Wiesmann on 13.12.2018.
+// Outputs a TeX File that, compiled with LuaLaTeX, gives a graphical representation of a graph
 //
 
 #include<iostream>
