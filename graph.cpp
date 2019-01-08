@@ -5,6 +5,7 @@
 #include <stdexcept>
 #include <limits>
 #include <cstdlib>
+#include <string>
 #include "graph.h"
 
 const Graph::NodeId Graph::invalid_node = -1;
@@ -136,4 +137,42 @@ Graph::Graph(char const * filename, DirType dtype): dirtype(dtype)
             throw std::runtime_error("Invalid file format: loops not allowed.");
         }
     }
+}
+
+void Graph::draw(std::string filename){
+    std::ofstream outputfile {filename};
+    if(outputfile.is_open()){
+        outputfile << "\\documentclass{standalone}\n";
+        outputfile << "\\usepackage{tikz}\n";
+        outputfile << "\\usepackage{xcolor}\n";
+        outputfile << "\\usetikzlibrary{graphdrawing, graphs}\n";
+        outputfile << "\\usegdlibrary{force}\n";
+        outputfile << "\\definecolor{dgreen}{rgb}{0.0, 0.42, 0.24}\n";
+        outputfile << "\\begin{document}\n";
+        outputfile << "\\tikz [spring layout, iterations = 10000] {\n";
+        outputfile << "\\tikzstyle{every node}=[ball color=red,circle,text=white]\n";
+        for(int i = 0; i < this->num_nodes(); ++i){
+            outputfile << "\\node (" << i << ") {" << i << "};\n";
+        }
+        if(this->dirtype == Graph::undirected){
+            for(int i = 0; i < this->num_nodes(); ++i){
+                for(unsigned j = 0; j < this->get_node(i).adjacent_nodes().size(); ++j){
+                    int adjacent_node_id = this->get_node(i).adjacent_nodes()[j].id();
+                    outputfile << "\\draw (" << i << ") edge[--,dgreen] (" << adjacent_node_id << ");\n";
+                }
+            }
+        }
+        else if(this->dirtype == Graph::directed){
+            for(int i = 0; i < this->num_nodes(); ++i){
+                for(unsigned j = 0; j < this->get_node(i).adjacent_nodes().size(); ++j){
+                    int adjacent_node_id = this->get_node(i).adjacent_nodes()[j].id();
+                    outputfile << "\\draw (" << i << ") edge[->,dgreen] (" << adjacent_node_id << ");\n";
+                }
+            }
+        }
+        outputfile << "}\n";
+        outputfile << "\\end{document}\n";
+        outputfile.close();
+    }
+    system(("lualatex -interaction=nonstopmode " + filename).c_str());
 }

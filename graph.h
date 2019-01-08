@@ -44,6 +44,8 @@ public:
   static const NodeId invalid_node;
   static const double infinite_weight;
 
+  void draw(std::string filename);
+
 private:
   std::vector<Node> _nodes;
 };
