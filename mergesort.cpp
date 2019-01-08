@@ -11,7 +11,7 @@ template <typename T, class Compare>
 void mergesort(std::vector<T> & v, size_t first, size_t last, const Compare & comp)
 
 {
-    size_t i = 2, j = 1;        // Verschmolzen werden Mengen der Größe j
+    size_t i = 2, j = 1;        // Verschmolzen werden Mengen der GrÃ¶ÃŸe j
     std::vector<T> w(0);
 
     while(j <= last)
@@ -23,7 +23,7 @@ void mergesort(std::vector<T> & v, size_t first, size_t last, const Compare & co
         {
             size_t cur1 = k, cur2 = k+j;
 
-            if (cur2 > last) //"Partner"-lose Menge wird übernommen
+            if (cur2 > last) //"Partner"-lose Menge wird Ã¼bernommen
             {
                 for (size_t l = cur1; l <= last; ++l)
                 {
